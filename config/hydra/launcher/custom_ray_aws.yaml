@@ -1,7 +1,6 @@
 _target_: hydra_plugins.hydra_ray_launcher.ray_aws_launcher.RayAWSLauncher
 env_setup:
   pip_packages:
-    omegaconf: 2.3.0
     hydra_core: 1.3.2
     ray: 2.32.0
     cloudpickle: 2.2.1
@@ -9,7 +8,10 @@ env_setup:
   commands:
     - curl -L -O "https://github.com/conda-forge/miniforge/releases/download/24.3.0-0/Mambaforge-24.3.0-0-Linux-x86_64.sh"
     - /bin/bash Mambaforge-24.3.0-0-Linux-x86_64.sh -b -p "$HOME/anaconda3" || true
-    - echo 'export PATH="$HOME/anaconda3/bin:$PATH"' >> ~/.bashrc
+    - $HOME/anaconda3/bin/mamba create -n hydra_env python=3.12 -y
+    - echo 'export PATH="$HOME/anaconda3/envs/hydra_env/bin:$PATH"' >> ~/.bashrc
+    - python --version
+    - which python
 ray:
   init:
     address: null
@@ -76,7 +78,7 @@ sync_up:
 sync_down:
   source_dir: null
   target_dir: null
-  include: []
+  include: ['*.log']
   exclude: []
 logging:
   log_style: auto
